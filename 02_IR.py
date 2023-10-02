@@ -134,7 +134,7 @@ def find_repeat_regions(input_file):
                             else:
                                 result = (
                                     f"LSC:{end1}-{start2 + 1}\nIRb:{start2 + 2}-{new_end}\n"
-                                    f"SSC:1-{new_start + 1}\nIRa:{start1 + 2}-{end1 - 1}"
+                                    f"SSC:1-{new_start + 1}\nIRa:{new_start + 2}-{end1 - 1}"
                                 )
                     # 不跨区域
                     else:
