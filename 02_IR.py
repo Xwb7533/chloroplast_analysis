@@ -104,7 +104,7 @@ def find_repeat_regions(input_file):
                     # print(new_start, new_end)
                     if new_end == len(my_seq):
                         # 跨区域延伸
-                        if my_seq[new_start - 1] == replace_dit[my_seq[0]]:
+                        if my_seq[new_start] == replace_dit[my_seq[0]]:
                             new_end = 1
                             new_start -= 1
                             while my_seq[new_start] == replace_dit[my_seq[new_end]]:
