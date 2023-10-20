@@ -25,8 +25,8 @@ def IGS_extract(input_file):
             if feature.type == 'CDS' or feature.type == 'tRNA' or feature.type == 'rRNA':
                 all_feature.append(feature)
         for i in range(len(all_feature)):
-            print(input_file)
-            print(all_feature[i])
+            #print(input_file)
+            # print(all_feature[i])
             gene_name = all_feature[i].qualifiers['gene'][0]
             gene_location = all_feature[i].location.parts
             gene1_exon_info = [[int(part.start), int(part.end), part.strand] for part in gene_location]
@@ -54,12 +54,12 @@ def IGS_extract(input_file):
         end_gene_info = all_info[-1].split('\t')
         start_gene_info = all_info[0].split('\t')
         if int(end_gene_info[-2]) < int(start_gene_info[1]):
-            print(f"{end_gene_info[0]}-{start_gene_info}[0]\t{end_gene_info[-2]}\t{start_gene_info[1]}")
+            # print(f"{end_gene_info[0]}-{start_gene_info}[0]\t{end_gene_info[-2]}\t{start_gene_info[1]}")
             save_file_w.write(f"{end_gene_info[0]}-{start_gene_info}[0]\t{end_gene_info[-2]}\t{start_gene_info[1]}\n")
         else:
             if int(end_gene_info[2]) < genome_length:
-                print(f"{end_gene_info[0]}-{start_gene_info[0]}\t{end_gene_info[-2]}\t{genome_length}\t0\t\
-                {start_gene_info[1]}")
+                # print(f"{end_gene_info[0]}-{start_gene_info[0]}\t{end_gene_info[-2]}\t{genome_length}\t0\t\
+                # {start_gene_info[1]}")
                 save_file_w.write(f"{end_gene_info[0]}-{start_gene_info[0]}\t{end_gene_info[-2]}\t{genome_length}\t0\t\
                 {start_gene_info[1]}\n")
             else:
@@ -72,8 +72,13 @@ def IGS_extract(input_file):
         while result_line:
             result_line_list = result_line.split('\t')
             if len(result_line_list) == 3:
-                all_fasta.write(f">{result_line_list[0]}\n{my_seq[int(result_line_list[1]):int(result_line_list[2])]}\n")
-                result_line = save_results.readline().strip()
+                if int(result_line_list[2]) > int(result_line_list[1]):
+                    all_fasta.write(f">{result_line_list[0]}\n{my_seq[int(result_line_list[1]):int(result_line_list[2])]}\n")
+                    result_line = save_results.readline().strip()
+                else:
+                    print(f"{result_line_list[0]} has overlap!")
+                    result_line = save_results.readline().strip()
+
             else:
                 all_fasta.write(f">{result_line_list[0]}\n{my_seq[int(result_line_list[1]):int(result_line_list[2])]}\
                 {my_seq[int(result_line_list[3]):int(result_line_list[4])]}\n")
